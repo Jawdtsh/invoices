@@ -79,7 +79,7 @@
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
                         <div class="d-flex justify-content-between">
-                            <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale"
+                            <a class="modal-effect btn  btn-primary" data-effect="effect-scale"
                                data-toggle="modal" href="#modaldemo8">اضافة قسم</a>
                         </div>
                     </div>
@@ -113,6 +113,9 @@
                                            data-id="{{ $section->id }}" data-section_name="{{ $section->section_name }}" data-toggle="modal"
                                            href="#modaldemo9" title="حذف"><i class="las la-trash"></i></a>
 
+
+
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -131,7 +134,7 @@
                                 <h6 class="modal-title">اضافة قسم</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{route('setting.store')}}" method="post">
+                                <form action="{{route('sections.store')}}" method="post">
                                         @csrf
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">اسم القسم</label>
@@ -168,7 +171,7 @@
                     </div>
                     <div class="modal-body">
 
-                        <form action="setting/update" method="post" autocomplete="off">
+                        <form action="sections/update" method="post" autocomplete="off">
                             {{method_field('patch')}}
                             @csrf
                             <div class="form-group">
@@ -198,7 +201,7 @@
                         <h6 class="modal-title">حذف القسم</h6><button aria-label="Close" class="close" data-dismiss="modal"
                                                                       type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
-                    <form action="setting/destroy" method="post">
+                    <form action="sections/destroy" method="post">
                         {{method_field('delete')}}
                         @csrf
                         <div class="modal-body">

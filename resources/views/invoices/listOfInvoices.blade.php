@@ -30,8 +30,8 @@
                                 <div class="card-header pb-0">
                                     <div class="d-flex justify-content-between">
                                         <div class="d-flex justify-content-between">
-                                            <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">اضافة فاتورة</a>
-
+                                            <a href="invoices/create" class="modal-effect btn  btn-primary" data-effect="effect-scale"  >اضافة فاتورة</a>
+{{--                                            <a href="createInvoicesRequest/create" class="modal-effect btn btn-sm btn-primary" style="color:white"><i class="fas fa-plus"></i>&nbsp; اضافة فاتورة</a>--}}
                                         </div>
 
                                     </div>
@@ -57,20 +57,33 @@
                                             </tr>
                                             </thead>
                                             <tbody>
+                                            @php
+                                                $i = 0;
+                                            @endphp
+                                            @foreach ($invoices as $invoice)
+                                                @php
+                                                    $i++
+                                                @endphp
                                             <tr>
-                                                <td>Bella</td>
-                                                <td>Chloe</td>
-                                                <td>System Developer</td>
-                                                <td>2018/03/12</td>
-                                                <td>$654,765</td>
-                                                <td>b.Chloe@datatables.net</td>
-                                                <td>Bella</td>
-                                                <td>Chloe</td>
-                                                <td>System Developer</td>
-                                                <td>2018/03/12</td>
-                                                <td>$654,765</td>
-                                                <td>b.Chloe@datatables.net</td>
+
+
+                                                <td>{{ $i }}</td>
+                                                <td>{{ $invoice->invoice_number }} </td>
+                                                <td>{{ $invoice->invoice_Date }}</td>
+                                                <td>{{ $invoice->Due_date }}</td>
+                                                <td>{{ $invoice->product_id }}</td>
+                                                <td>
+                                                    <a href="{{ url('invoices') }}/{{ $invoice->id }}">{{ $invoice->sections->section_name }}</a>
+                                                </td>
+                                                <td>{{ $invoice->Discount }}</td>
+                                                <td>{{ $invoice->Rate_VAT }}</td>
+                                                <td>{{ $invoice->Value_VAT }}</td>
+                                                <td>{{ $invoice->Total }}</td>
+                                                <td>{{ $invoice->Status }}</td>
+                                                <td>{{ $invoice->note }}</td>
+
                                             </tr>
+                                            @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -86,7 +99,7 @@
                                 <h6 class="modal-title">اضافة قسم</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{route('setting.store')}}" method="post">
+                                <form action="{{route('sections.store')}}" method="post">
                                     @csrf
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">اسم القسم</label>

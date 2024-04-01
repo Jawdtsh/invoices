@@ -16,18 +16,17 @@ return new class extends Migration
             $table->string('invoice_number', 50);
             $table->date('invoice_Date')->nullable();
             $table->date('Due_date')->nullable();
-            $table->string('product', 50);
+            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
             $table->foreignId('section_id')->constrained('sections')->cascadeOnDelete();
-            $table->decimal('Amount_collection',8,2)->nullable();;
+            $table->decimal('Amount_collection',8,2)->nullable();
             $table->decimal('Amount_Commission',8,2);
             $table->decimal('Discount',8,2);
             $table->decimal('Value_VAT',8,2);
             $table->string('Rate_VAT', 999);
             $table->decimal('Total',8,2);
-            $table->string('Status', 50);
-            $table->integer('Value_Status');
             $table->text('note')->nullable();
             $table->date('Payment_Date')->nullable();
+            $table->string('created_by', 999);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -38,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('createInvoicesRequest');
     }
 };

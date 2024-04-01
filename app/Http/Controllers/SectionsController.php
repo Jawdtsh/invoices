@@ -6,6 +6,7 @@ use App\Http\Requests\section\UpdateSectionRequest;
 use App\Models\Sections;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class SectionsController extends Controller
 {
@@ -36,7 +37,7 @@ class SectionsController extends Controller
         $exists = Sections::where('section_name', $input['section_name'])->exists();
         if ($exists) {
             session()->flash('Error', 'القسم مسجل مسبقا');
-            return redirect('/setting');
+            return redirect('/sections');
         }
 
         Sections::create([
@@ -45,13 +46,13 @@ class SectionsController extends Controller
             'create_by' => (Auth::user()->name),
         ]);
         session()->flash('Add', 'تم اضافة القسم بنجاح');
-        return redirect('/setting');
+        return redirect('/sections');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(sections $sections)
+    public function show(Request $sections)
     {
         //
     }
@@ -80,7 +81,7 @@ class SectionsController extends Controller
 //            $section['phone']='lkdjfl';
             $section->update($validated);
             session()->flash('edit', 'تم التعديل');
-            return redirect()->route('setting.index');
+            return redirect()->route('sections.index');
         } catch (\Throwable $e) {
             return "general error :".$e->getMessage();
         }
@@ -96,13 +97,13 @@ class SectionsController extends Controller
 //            if ($section) {
 //                $section->delete();
 //                session()->flash('delete', 'تم الحذف');
-//                return redirect('setting');
+//                return redirect('sections');
 //            }
 //            session()->flash('error', 'لم يتم العثور على القسم امطلوب حذفه');
-//            return redirect('setting');
+//            return redirect('sections');
 //        }
 //        session()->flash('error', 'not found');
-//        return redirect('setting');
+//        return redirect('sections');
 
         try {
             $section = Sections::findOrFail($request->id);
@@ -112,6 +113,17 @@ class SectionsController extends Controller
         } catch (\Exception $e) {
             session()->flash('error', 'حدث خطأ أثناء معالجة الطلب');
         }
-        return redirect('setting');
+        return redirect('sections');
+    }
+
+    /**
+     * @throws \JsonException
+     */
+    public function getproducts($id)
+    {
+//        return 1;
+        $products = DB::table("products")->where("section_id", $id)->pluck("product_name", "id");
+        return json_encode($products);
+
     }
 }
