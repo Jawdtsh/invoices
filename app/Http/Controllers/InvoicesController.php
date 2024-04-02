@@ -59,7 +59,6 @@ class InvoicesController extends Controller
             'invoice_number' =>$valedat['invoice_number'],
         ]);
 
-
         if ($request->hasFile('pic')) {
 
             $invoice_id = $invoce['id'];
@@ -75,17 +74,7 @@ class InvoicesController extends Controller
             $imageName = $request->pic->getClientOriginalName();
             $request->pic->move(public_path('Attachments/' . $invoice_number), $imageName);
         }
-
-
         return redirect('/invoices');
-
-
-
-
-
-
-
-
     }
 
 
