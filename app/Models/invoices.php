@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class invoices extends Model
 {
-    protected $fillable=[
+    protected $fillable = [
         'invoice_number',
         'invoice_Date',
         'Due_date',
@@ -28,12 +28,13 @@ class invoices extends Model
 
     public function sections()
     {
-        return $this->belongsTo(Sections::class ,'section_id') ;
+        return $this->belongsTo(Sections::class, 'section_id');
     }
-//    public function sections()
-//    {
-//
-//        return $this->belongsTo(sections::class);
-//    }
+
+    public function statuses()
+    {
+        return $this->belongsToMany(Status::class, 'pivot_invoices_status', 'invoices_id', 'invoices_status_id');
+    }
+
     use HasFactory;
 }

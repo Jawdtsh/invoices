@@ -17,4 +17,8 @@ class product extends Model
 
         return $this->belongsTo(Sections::class,'section_id');
     }
+    public function invoices(){
+
+        return $this->belongsTo(invoices::class,'invoices_id');
+    }
 }

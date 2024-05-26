@@ -17,11 +17,8 @@ class InvoicesController extends Controller
     public function index()
     {
 
-//        $section = invoices::find(6);
-//        return $section->sections;
-
-        $invoices = invoices::all();
-        return view('invoices.listOFInvoices',compact('invoices'));
+        $invoicesCollections = invoices::all();
+        return view('invoices.listOFInvoices', compact('invoicesCollections'));
     }
 
     /**
@@ -39,9 +36,6 @@ class InvoicesController extends Controller
     public function store(CreateInvoicesRequest $request)
     {
         $valedat = $request->validated();
-
-
-
         $invoce = invoices::create([
             'invoice_Date' => $valedat['invoice_Date'],
             'Due_date' => $valedat['Due_date'],
@@ -55,8 +49,8 @@ class InvoicesController extends Controller
             'Total' => $valedat['Total'],
             'Status_id' => 1,
             'note' => $valedat['note'],
-            'created_by'=>(Auth::user()->name),
-            'invoice_number' =>$valedat['invoice_number'],
+            'created_by' => (Auth::user()->name),
+            'invoice_number' => $valedat['invoice_number'],
         ]);
 
         if ($request->hasFile('pic')) {
@@ -81,9 +75,10 @@ class InvoicesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(invoices $invoices)
+    public function show($id)
     {
-        //
+        $invoicesCollections = invoices::where('id', $id)->first();
+        return view('invoices.Invoices_Details',compact('invoicesCollections'));
     }
 
     /**

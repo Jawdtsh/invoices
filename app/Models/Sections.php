@@ -15,9 +15,8 @@ class Sections extends Model
         'create_by'
     ];
 
-    public function productes()
+    public function producte()
     {
-
         return $this->hasMany(product::class, 'section_id');
     }
 

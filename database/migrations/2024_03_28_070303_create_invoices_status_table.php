@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('invoices_status', function (Blueprint $table) {
             $table->id();
-            $table->enum('status',['غير مدفوعة','مدفوعة جزئيا','مدفوعة']);
+            $table->string('name');
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
