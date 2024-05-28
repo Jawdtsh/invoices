@@ -33,3 +33,4 @@ Route::resource('/sections',SectionsController::class);
 Route::get('/section/{id}',[SectionsController::class,'getproducts']);
 Route::resource('/products',ProductController::class);
 Route::resource('/status',StatusController::class);
+Route::view('/detiles','unused.tabs');

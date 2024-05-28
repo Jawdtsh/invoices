@@ -36,5 +36,11 @@ class invoices extends Model
         return $this->belongsToMany(Status::class, 'pivot_invoices_status', 'invoices_id', 'invoices_status_id');
     }
 
+    public function product()
+    {
+        return $this->hasOne(product::class);
+    }
+
+
     use HasFactory;
 }

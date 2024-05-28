@@ -126,7 +126,7 @@
 						</div>
 					</div>
 
-					<div class="col-xl-12">
+					    <div class="col-xl-12">
 						<!-- div -->
 						<div class="card mg-b-20" id="tabs-style2">
 							<div class="card-body">

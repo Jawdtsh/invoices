@@ -102,7 +102,8 @@
 
                                                     <tr>
                                                         <th scope="row">المنتج</th>
-                                                        <td>{{ $invoicesCollections->product }}</td>
+{{--                                                        <td>{{ $invoicesCollections->product }}</td>--}}
+                                                        <td>{{ 'test'  }}</td>
                                                         <th scope="row">مبلغ التحصيل</th>
                                                         <td>{{ $invoicesCollections->Amount_collection }}</td>
                                                         <th scope="row">مبلغ العمولة</th>
@@ -121,19 +122,21 @@
                                                         <td>{{ $invoicesCollections->Total }}</td>
                                                         <th scope="row">الحالة الحالية</th>
 
-                                                        @if ($invoicesCollections->Value_Status == 1)
+
+                                                        @if ($invoicesCollections->statuses?->last()?->id == 3)
                                                             <td><span
-                                                                    class="badge badge-pill badge-success">{{ $invoicesCollections->Status }}</span>
+                                                                    class="badge badge-pill badge-success">{{ $invoicesCollections->statuses?->last()?->name }}</span>
                                                             </td>
-                                                        @elseif($invoicesCollections->Value_Status ==2)
+                                                        @elseif($invoicesCollections->statuses?->last()?->id == 2)
                                                             <td><span
-                                                                    class="badge badge-pill badge-danger">{{ $invoicesCollections->Status }}</span>
+                                                                    class="badge badge-pill badge-warning">{{ $invoicesCollections->statuses?->last()?->name }}</span>
                                                             </td>
                                                         @else
                                                             <td><span
-                                                                    class="badge badge-pill badge-warning">{{ $invoicesCollections->Status }}</span>
+                                                                    class="badge badge-pill badge-danger">{{ $invoicesCollections->statuses?->last()?->name }}</span>
                                                             </td>
                                                         @endif
+
                                                     </tr>
 
                                                     <tr>
@@ -159,38 +162,38 @@
                                                         <th>حالة الدفع</th>
                                                         <th>تاريخ الدفع </th>
                                                         <th>ملاحظات</th>
-                                                        <th>تاريخ الاضافة </th>
+                                                        <th>تاريخ الاضافة</th>
                                                         <th>المستخدم</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     <?php $i = 0; ?>
-                                                    @foreach ($details as $x)
-                                                            <?php $i++; ?>
-                                                        <tr>
-                                                            <td>{{ $i }}</td>
-                                                            <td>{{ $x->invoice_number }}</td>
-                                                            <td>{{ $x->product }}</td>
-                                                            <td>{{ $invoices->Section->section_name }}</td>
-                                                            @if ($x->Value_Status == 1)
-                                                                <td><span
-                                                                        class="badge badge-pill badge-success">{{ $x->Status }}</span>
-                                                                </td>
-                                                            @elseif($x->Value_Status ==2)
-                                                                <td><span
-                                                                        class="badge badge-pill badge-danger">{{ $x->Status }}</span>
-                                                                </td>
-                                                            @else
-                                                                <td><span
-                                                                        class="badge badge-pill badge-warning">{{ $x->Status }}</span>
-                                                                </td>
-                                                            @endif
-                                                            <td>{{ $x->Payment_Date }}</td>
-                                                            <td>{{ $x->note }}</td>
-                                                            <td>{{ $x->created_at }}</td>
-                                                            <td>{{ $x->user }}</td>
-                                                        </tr>
-                                                    @endforeach
+{{--                                                    @foreach ($details as $x)--}}
+{{--                                                            <?php $i++; ?>--}}
+{{--                                                        <tr>--}}
+{{--                                                            <td>{{ $i }}</td>--}}
+{{--                                                            <td>{{ $x->invoice_number }}</td>--}}
+{{--                                                            <td>{{ $x->product }}</td>--}}
+{{--                                                            <td>{{ $invoices->Section->section_name }}</td>--}}
+{{--                                                            @if ($x->Value_Status == 1)--}}
+{{--                                                                <td><span--}}
+{{--                                                                        class="badge badge-pill badge-success">{{ $x->Status }}</span>--}}
+{{--                                                                </td>--}}
+{{--                                                            @elseif($x->Value_Status ==2)--}}
+{{--                                                                <td><span--}}
+{{--                                                                        class="badge badge-pill badge-danger">{{ $x->Status }}</span>--}}
+{{--                                                                </td>--}}
+{{--                                                            @else--}}
+{{--                                                                <td><span--}}
+{{--                                                                        class="badge badge-pill badge-warning">{{ $x->Status }}</span>--}}
+{{--                                                                </td>--}}
+{{--                                                            @endif--}}
+{{--                                                            <td>{{ $x->Payment_Date }}</td>--}}
+{{--                                                            <td>{{ $x->note }}</td>--}}
+{{--                                                            <td>{{ $x->created_at }}</td>--}}
+{{--                                                            <td>{{ $x->user }}</td>--}}
+{{--                                                        </tr>--}}
+{{--                                                    @endforeach--}}
                                                     </tbody>
                                                 </table>
 
@@ -240,38 +243,38 @@
                                                         </thead>
                                                         <tbody>
                                                             <?php $i = 0; ?>
-                                                        @foreach ($attachments as $attachment)
-                                                                <?php $i++; ?>
-                                                            <tr>
-                                                                <td>{{ $i }}</td>
-                                                                <td>{{ $attachment->file_name }}</td>
-                                                                <td>{{ $attachment->Created_by }}</td>
-                                                                <td>{{ $attachment->created_at }}</td>
-                                                                <td colspan="2">
+{{--                                                        @foreach ($attachments as $attachment)--}}
+{{--                                                                <?php $i++; ?>--}}
+{{--                                                            <tr>--}}
+{{--                                                                <td>{{ $i }}</td>--}}
+{{--                                                                <td>{{ $attachment->file_name }}</td>--}}
+{{--                                                                <td>{{ $attachment->Created_by }}</td>--}}
+{{--                                                                <td>{{ $attachment->created_at }}</td>--}}
+{{--                                                                <td colspan="2">--}}
 
-                                                                    <a class="btn btn-outline-success btn-sm"
-                                                                       href="{{ url('View_file') }}/{{ $invoices->invoice_number }}/{{ $attachment->file_name }}"
-                                                                       role="button"><i class="fas fa-eye"></i>&nbsp;
-                                                                        عرض</a>
+{{--                                                                    <a class="btn btn-outline-success btn-sm"--}}
+{{--                                                                       href="{{ url('View_file') }}/{{ $invoices->invoice_number }}/{{ $attachment->file_name }}"--}}
+{{--                                                                       role="button"><i class="fas fa-eye"></i>&nbsp;--}}
+{{--                                                                        عرض</a>--}}
 
-                                                                    <a class="btn btn-outline-info btn-sm"
-                                                                       href="{{ url('download') }}/{{ $invoices->invoice_number }}/{{ $attachment->file_name }}"
-                                                                       role="button"><i
-                                                                            class="fas fa-download"></i>&nbsp;
-                                                                        تحميل</a>
+{{--                                                                    <a class="btn btn-outline-info btn-sm"--}}
+{{--                                                                       href="{{ url('download') }}/{{ $invoices->invoice_number }}/{{ $attachment->file_name }}"--}}
+{{--                                                                       role="button"><i--}}
+{{--                                                                            class="fas fa-download"></i>&nbsp;--}}
+{{--                                                                        تحميل</a>--}}
 
-                                                                    @can('حذف المرفق')
-                                                                        <button class="btn btn-outline-danger btn-sm"
-                                                                                data-toggle="modal"
-                                                                                data-file_name="{{ $attachment->file_name }}"
-                                                                                data-invoice_number="{{ $attachment->invoice_number }}"
-                                                                                data-id_file="{{ $attachment->id }}"
-                                                                                data-target="#delete_file">حذف</button>
-                                                                    @endcan
+{{--                                                                    @can('حذف المرفق')--}}
+{{--                                                                        <button class="btn btn-outline-danger btn-sm"--}}
+{{--                                                                                data-toggle="modal"--}}
+{{--                                                                                data-file_name="{{ $attachment->file_name }}"--}}
+{{--                                                                                data-invoice_number="{{ $attachment->invoice_number }}"--}}
+{{--                                                                                data-id_file="{{ $attachment->id }}"--}}
+{{--                                                                                data-target="#delete_file">حذف</button>--}}
+{{--                                                                    @endcan--}}
 
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
+{{--                                                                </td>--}}
+{{--                                                            </tr>--}}
+{{--                                                        @endforeach--}}
                                                         </tbody>
                                                         </tbody>
                                                     </table>
@@ -304,24 +307,24 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('delete_file') }}" method="post">
+{{--                <form action="{{ route('delete_file') }}" method="post">--}}
 
-                    {{ csrf_field() }}
-                    <div class="modal-body">
-                        <p class="text-center">
-                        <h6 style="color:red"> هل انت متاكد من عملية حذف المرفق ؟</h6>
-                        </p>
+{{--                    {{ csrf_field() }}--}}
+{{--                    <div class="modal-body">--}}
+{{--                        <p class="text-center">--}}
+{{--                        <h6 style="color:red"> هل انت متاكد من عملية حذف المرفق ؟</h6>--}}
+{{--                        </p>--}}
 
-                        <input type="hidden" name="id_file" id="id_file" value="">
-                        <input type="hidden" name="file_name" id="file_name" value="">
-                        <input type="hidden" name="invoice_number" id="invoice_number" value="">
+{{--                        <input type="hidden" name="id_file" id="id_file" value="">--}}
+{{--                        <input type="hidden" name="file_name" id="file_name" value="">--}}
+{{--                        <input type="hidden" name="invoice_number" id="invoice_number" value="">--}}
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">الغاء</button>
-                        <button type="submit" class="btn btn-danger">تاكيد</button>
-                    </div>
-                </form>
+{{--                    </div>--}}
+{{--                    <div class="modal-footer">--}}
+{{--                        <button type="button" class="btn btn-default" data-dismiss="modal">الغاء</button>--}}
+{{--                        <button type="submit" class="btn btn-danger">تاكيد</button>--}}
+{{--                    </div>--}}
+{{--                </form>--}}
             </div>
         </div>
     </div>
