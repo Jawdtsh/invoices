@@ -25,7 +25,6 @@
 @endsection
 @section('content')
 
-
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -80,6 +79,7 @@
                                         </ul>
                                     </div>
                                 </div>
+
                                 <div class="panel-body tabs-menu-body main-content-body-right border">
                                     <div class="tab-content">
 
@@ -102,8 +102,7 @@
 
                                                     <tr>
                                                         <th scope="row">المنتج</th>
-{{--                                                        <td>{{ $invoicesCollections->product }}</td>--}}
-                                                        <td>{{ 'test'  }}</td>
+                                                        <td>{{ $invoicesCollections->product->product_name }}</td>
                                                         <th scope="row">مبلغ التحصيل</th>
                                                         <td>{{ $invoicesCollections->Amount_collection }}</td>
                                                         <th scope="row">مبلغ العمولة</th>
@@ -123,17 +122,17 @@
                                                         <th scope="row">الحالة الحالية</th>
 
 
-                                                        @if ($invoicesCollections->statuses?->last()?->id == 3)
+                                                        @if ($invoicesCollections->statuses?->last()?->id === 3)
                                                             <td><span
-                                                                    class="badge badge-pill badge-success">{{ $invoicesCollections->statuses?->last()?->name }}</span>
+                                                                        class="badge badge-pill badge-success">{{ $invoicesCollections->statuses?->last()?->name }}</span>
                                                             </td>
-                                                        @elseif($invoicesCollections->statuses?->last()?->id == 2)
+                                                        @elseif($invoicesCollections->statuses?->last()?->id === 2)
                                                             <td><span
-                                                                    class="badge badge-pill badge-warning">{{ $invoicesCollections->statuses?->last()?->name }}</span>
+                                                                        class="badge badge-pill badge-warning">{{ $invoicesCollections->statuses?->last()?->name }}</span>
                                                             </td>
                                                         @else
                                                             <td><span
-                                                                    class="badge badge-pill badge-danger">{{ $invoicesCollections->statuses?->last()?->name }}</span>
+                                                                        class="badge badge-pill badge-danger">{{ $invoicesCollections->statuses?->last()?->name }}</span>
                                                             </td>
                                                         @endif
 
@@ -156,45 +155,72 @@
                                                     <thead>
                                                     <tr class="text-dark">
                                                         <th>#</th>
-                                                        <th>رقم الفاتورة</th>
-                                                        <th>نوع المنتج</th>
-                                                        <th>القسم</th>
                                                         <th>حالة الدفع</th>
-                                                        <th>تاريخ الدفع </th>
-                                                        <th>ملاحظات</th>
-                                                        <th>تاريخ الاضافة</th>
+                                                        <th>تاريخ الدفع</th>
                                                         <th>المستخدم</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     <?php $i = 0; ?>
-{{--                                                    @foreach ($details as $x)--}}
+                                                    @foreach ($statusesWithPivot as $status)
+                                                            <?php $i++; ?>
+                                                        <tr>
+                                                            <td>{{ $i }}</td>
+                                                            @if($status->id === 1)
+                                                                <td><span
+                                                                            class="badge badge-pill badge-warning">{{ $status->name}}</span>
+                                                                </td>
+                                                            @elseif($status->id ===2)
+                                                                <td><span
+                                                                            class="badge badge-pill badge-danger">{{  $status->name}}</span>
+                                                                </td>
+                                                            @else
+                                                                <td><span
+                                                                            class="badge badge-pill badge-success">{{$status->name}}</span>
+                                                                </td>
+                                                            @endif
+
+
+{{--                                                             @if (!empty($statusesWithPivot))--}}
+{{--                                                             <td>{{ 'test' }}</td>--}}
+{{--                                                            @endif--}}
+
+                                                            <td>{{ $status->pivot->created_at->diffForHumans() }}</td>
+                                                            <td>{{ $status->user->name }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                    </tbody>
+{{--                                                    <tbody>--}}
+{{--                                                    <?php $i = 0; ?>--}}
+{{--                                                    @foreach ($zipped as $zip)--}}
 {{--                                                            <?php $i++; ?>--}}
 {{--                                                        <tr>--}}
 {{--                                                            <td>{{ $i }}</td>--}}
-{{--                                                            <td>{{ $x->invoice_number }}</td>--}}
-{{--                                                            <td>{{ $x->product }}</td>--}}
-{{--                                                            <td>{{ $invoices->Section->section_name }}</td>--}}
-{{--                                                            @if ($x->Value_Status == 1)--}}
+{{--                                                            @if ($zip[0]->$state->id == 1)--}}
 {{--                                                                <td><span--}}
-{{--                                                                        class="badge badge-pill badge-success">{{ $x->Status }}</span>--}}
+{{--                                                                            class="badge badge-pill badge-warning">{{$zip[0]->$state->name }}</span>--}}
 {{--                                                                </td>--}}
-{{--                                                            @elseif($x->Value_Status ==2)--}}
+{{--                                                            @elseif($zip[0]->$state->id ==2)--}}
 {{--                                                                <td><span--}}
-{{--                                                                        class="badge badge-pill badge-danger">{{ $x->Status }}</span>--}}
+{{--                                                                            class="badge badge-pill badge-danger">{{ $zip[0]->$state->name }}</span>--}}
 {{--                                                                </td>--}}
 {{--                                                            @else--}}
 {{--                                                                <td><span--}}
-{{--                                                                        class="badge badge-pill badge-warning">{{ $x->Status }}</span>--}}
+{{--                                                                            class="badge badge-pill badge-success">{{$zip[0]->$state->name }}</span>--}}
 {{--                                                                </td>--}}
 {{--                                                            @endif--}}
-{{--                                                            <td>{{ $x->Payment_Date }}</td>--}}
-{{--                                                            <td>{{ $x->note }}</td>--}}
-{{--                                                            <td>{{ $x->created_at }}</td>--}}
-{{--                                                            <td>{{ $x->user }}</td>--}}
+
+
+{{--                                                             @if (!empty($zip[1]->pivot))--}}
+{{--                                                             <td>{{ $zip[1]->pivot->created_at }}</td>--}}
+{{--                                                            @endif--}}
+
+{{--                                                            <td>{{ 'test' }}</td>--}}
 {{--                                                        </tr>--}}
 {{--                                                    @endforeach--}}
-                                                    </tbody>
+{{--                                                    </tbody>--}}
+
+
                                                 </table>
 
 
@@ -213,17 +239,21 @@
                                                               enctype="multipart/form-data">
                                                             {{ csrf_field() }}
                                                             <div class="custom-file">
-                                                                <input type="file" class="custom-file-input" id="customFile"
+                                                                <input type="file" class="custom-file-input"
+                                                                       id="customFile"
                                                                        name="file_name" required>
-                                                                <input type="hidden" id="customFile" name="invoice_number"
+                                                                <input type="hidden" id="customFile"
+                                                                       name="invoice_number"
                                                                        value="{{ $invoices->invoice_number }}">
                                                                 <input type="hidden" id="invoice_id" name="invoice_id"
                                                                        value="{{ $invoices->id }}">
                                                                 <label class="custom-file-label" for="customFile">حدد
                                                                     المرفق</label>
-                                                            </div><br><br>
+                                                            </div>
+                                                            <br><br>
                                                             <button type="submit" class="btn btn-primary btn-sm "
-                                                                    name="uploadedFile">تاكيد</button>
+                                                                    name="uploadedFile">تاكيد
+                                                            </button>
                                                         </form>
                                                     </div>
                                                 @endcan
@@ -243,38 +273,38 @@
                                                         </thead>
                                                         <tbody>
                                                             <?php $i = 0; ?>
-{{--                                                        @foreach ($attachments as $attachment)--}}
-{{--                                                                <?php $i++; ?>--}}
-{{--                                                            <tr>--}}
-{{--                                                                <td>{{ $i }}</td>--}}
-{{--                                                                <td>{{ $attachment->file_name }}</td>--}}
-{{--                                                                <td>{{ $attachment->Created_by }}</td>--}}
-{{--                                                                <td>{{ $attachment->created_at }}</td>--}}
-{{--                                                                <td colspan="2">--}}
+                                                        {{--                                                        @foreach ($attachments as $attachment)--}}
+                                                        {{--                                                                <?php $i++; ?>--}}
+                                                        {{--                                                            <tr>--}}
+                                                        {{--                                                                <td>{{ $i }}</td>--}}
+                                                        {{--                                                                <td>{{ $attachment->file_name }}</td>--}}
+                                                        {{--                                                                <td>{{ $attachment->Created_by }}</td>--}}
+                                                        {{--                                                                <td>{{ $attachment->created_at }}</td>--}}
+                                                        {{--                                                                <td colspan="2">--}}
 
-{{--                                                                    <a class="btn btn-outline-success btn-sm"--}}
-{{--                                                                       href="{{ url('View_file') }}/{{ $invoices->invoice_number }}/{{ $attachment->file_name }}"--}}
-{{--                                                                       role="button"><i class="fas fa-eye"></i>&nbsp;--}}
-{{--                                                                        عرض</a>--}}
+                                                        {{--                                                                    <a class="btn btn-outline-success btn-sm"--}}
+                                                        {{--                                                                       href="{{ url('View_file') }}/{{ $invoices->invoice_number }}/{{ $attachment->file_name }}"--}}
+                                                        {{--                                                                       role="button"><i class="fas fa-eye"></i>&nbsp;--}}
+                                                        {{--                                                                        عرض</a>--}}
 
-{{--                                                                    <a class="btn btn-outline-info btn-sm"--}}
-{{--                                                                       href="{{ url('download') }}/{{ $invoices->invoice_number }}/{{ $attachment->file_name }}"--}}
-{{--                                                                       role="button"><i--}}
-{{--                                                                            class="fas fa-download"></i>&nbsp;--}}
-{{--                                                                        تحميل</a>--}}
+                                                        {{--                                                                    <a class="btn btn-outline-info btn-sm"--}}
+                                                        {{--                                                                       href="{{ url('download') }}/{{ $invoices->invoice_number }}/{{ $attachment->file_name }}"--}}
+                                                        {{--                                                                       role="button"><i--}}
+                                                        {{--                                                                            class="fas fa-download"></i>&nbsp;--}}
+                                                        {{--                                                                        تحميل</a>--}}
 
-{{--                                                                    @can('حذف المرفق')--}}
-{{--                                                                        <button class="btn btn-outline-danger btn-sm"--}}
-{{--                                                                                data-toggle="modal"--}}
-{{--                                                                                data-file_name="{{ $attachment->file_name }}"--}}
-{{--                                                                                data-invoice_number="{{ $attachment->invoice_number }}"--}}
-{{--                                                                                data-id_file="{{ $attachment->id }}"--}}
-{{--                                                                                data-target="#delete_file">حذف</button>--}}
-{{--                                                                    @endcan--}}
+                                                        {{--                                                                    @can('حذف المرفق')--}}
+                                                        {{--                                                                        <button class="btn btn-outline-danger btn-sm"--}}
+                                                        {{--                                                                                data-toggle="modal"--}}
+                                                        {{--                                                                                data-file_name="{{ $attachment->file_name }}"--}}
+                                                        {{--                                                                                data-invoice_number="{{ $attachment->invoice_number }}"--}}
+                                                        {{--                                                                                data-id_file="{{ $attachment->id }}"--}}
+                                                        {{--                                                                                data-target="#delete_file">حذف</button>--}}
+                                                        {{--                                                                    @endcan--}}
 
-{{--                                                                </td>--}}
-{{--                                                            </tr>--}}
-{{--                                                        @endforeach--}}
+                                                        {{--                                                                </td>--}}
+                                                        {{--                                                            </tr>--}}
+                                                        {{--                                                        @endforeach--}}
                                                         </tbody>
                                                         </tbody>
                                                     </table>
@@ -307,24 +337,24 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-{{--                <form action="{{ route('delete_file') }}" method="post">--}}
+                {{--                <form action="{{ route('delete_file') }}" method="post">--}}
 
-{{--                    {{ csrf_field() }}--}}
-{{--                    <div class="modal-body">--}}
-{{--                        <p class="text-center">--}}
-{{--                        <h6 style="color:red"> هل انت متاكد من عملية حذف المرفق ؟</h6>--}}
-{{--                        </p>--}}
+                {{--                    {{ csrf_field() }}--}}
+                {{--                    <div class="modal-body">--}}
+                {{--                        <p class="text-center">--}}
+                {{--                        <h6 style="color:red"> هل انت متاكد من عملية حذف المرفق ؟</h6>--}}
+                {{--                        </p>--}}
 
-{{--                        <input type="hidden" name="id_file" id="id_file" value="">--}}
-{{--                        <input type="hidden" name="file_name" id="file_name" value="">--}}
-{{--                        <input type="hidden" name="invoice_number" id="invoice_number" value="">--}}
+                {{--                        <input type="hidden" name="id_file" id="id_file" value="">--}}
+                {{--                        <input type="hidden" name="file_name" id="file_name" value="">--}}
+                {{--                        <input type="hidden" name="invoice_number" id="invoice_number" value="">--}}
 
-{{--                    </div>--}}
-{{--                    <div class="modal-footer">--}}
-{{--                        <button type="button" class="btn btn-default" data-dismiss="modal">الغاء</button>--}}
-{{--                        <button type="submit" class="btn btn-danger">تاكيد</button>--}}
-{{--                    </div>--}}
-{{--                </form>--}}
+                {{--                    </div>--}}
+                {{--                    <div class="modal-footer">--}}
+                {{--                        <button type="button" class="btn btn-default" data-dismiss="modal">الغاء</button>--}}
+                {{--                        <button type="submit" class="btn btn-danger">تاكيد</button>--}}
+                {{--                    </div>--}}
+                {{--                </form>--}}
             </div>
         </div>
     </div>

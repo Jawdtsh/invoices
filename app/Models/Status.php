@@ -15,6 +15,10 @@ class Status extends Model
 
         return $this->belongsToMany(invoices::class ,'pivot_invoices_status','id','invoices_id') ;
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class ) ;
+    }
 
 
 

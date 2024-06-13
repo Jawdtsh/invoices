@@ -38,7 +38,7 @@ class invoices extends Model
 
     public function product()
     {
-        return $this->hasOne(product::class);
+        return $this->belongsTo(product::class);
     }
 
 

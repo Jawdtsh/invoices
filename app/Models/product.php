@@ -19,6 +19,6 @@ class product extends Model
     }
     public function invoices(){
 
-        return $this->belongsTo(invoices::class,'invoices_id');
+        return $this->hasOne(invoices::class,'invoices_id');
     }
 }

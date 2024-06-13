@@ -8,6 +8,7 @@ use App\Models\invoices;
 use App\Models\Sections;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class InvoicesController extends Controller
 {
@@ -78,7 +79,20 @@ class InvoicesController extends Controller
     public function show($id)
     {
         $invoicesCollections = invoices::where('id', $id)->first();
-        return view('invoices.Invoices_Details',compact('invoicesCollections'));
+        $statusesWithPivot = $invoicesCollections->statuses()->withPivot('created_at')->get();
+//        dd($statusesWithPivot[0]->getOriginal());
+//        dd($statusesWithPivot);
+//        $zipped = $invoicesCollections->zip($statusesWithPivot);
+//        return view('invoices.Invoices_Details',compact('zipped'));
+        return view('invoices.Invoices_Details',compact('invoicesCollections','statusesWithPivot'));
+
+//        foreach ($zipped as $zip){
+//            dd($zip[0]);
+//        }
+
+
+        return $zipped;
+
     }
 
     /**
