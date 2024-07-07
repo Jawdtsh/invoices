@@ -41,6 +41,12 @@ class invoices extends Model
         return $this->belongsTo(product::class);
     }
 
+    public function attachments()
+    {
+        return $this->hasmany(attachment::class);
+    }
+
+
 
     use HasFactory;
 }

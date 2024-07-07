@@ -37,11 +37,32 @@ class InvoicesController extends Controller
     public function store(CreateInvoicesRequest $request)
     {
         $valedat = $request->validated();
+//        $attach = null;
+//        if ($request->hasFile('pic')) {
+//
+////            $invoice_id = $invoce['id'];
+//            $image = $request->file('pic');
+//            $file_name = $image->getClientOriginalName();
+//            $invoice_number = $valedat['invoice_number'];
+//
+//            $attachments = new attachment();
+//            $attachments->file_name = $file_name;
+////            $attachments->invoices_id = $invoice_id;
+//            $attachments->save();
+//
+////            return $attachments ;
+//            $imageName = $request->pic->getClientOriginalName();
+//            $request->pic->move(public_path('Attachments/' . $invoice_number), $imageName);
+//            $attach=$attachments->id;
+//
+//        }
+
         $invoce = invoices::create([
             'invoice_Date' => $valedat['invoice_Date'],
             'Due_date' => $valedat['Due_date'],
             'product_id' => $valedat['product_id'],
             'section_id' => $valedat['section_id'],
+//            'attachment_id' => $attach,
             'Amount_collection' => $valedat['Amount_collection'],
             'Amount_Commission' => $valedat['Amount_Commission'],
             'Discount' => $valedat['Discount'],
@@ -56,14 +77,14 @@ class InvoicesController extends Controller
 
         if ($request->hasFile('pic')) {
 
-            $invoice_id = $invoce['id'];
+//            $invoice_id = $invoce['id'];
             $image = $request->file('pic');
             $file_name = $image->getClientOriginalName();
             $invoice_number = $valedat['invoice_number'];
 
             $attachments = new attachment();
             $attachments->file_name = $file_name;
-            $attachments->invoices_id = $invoice_id;
+            $attachments->invoices_id = $invoce['id'];
             $attachments->save();
 
             $imageName = $request->pic->getClientOriginalName();
@@ -80,18 +101,22 @@ class InvoicesController extends Controller
     {
         $invoicesCollections = invoices::where('id', $id)->first();
         $statusesWithPivot = $invoicesCollections->statuses()->withPivot('created_at')->get();
+        $attachments = $invoicesCollections->attachments;
+//        return $attachments[0]->invoices_id->attachments;
+//        return $attachments;
+//        $attachments = $invoicesCollections->
 //        dd($statusesWithPivot[0]->getOriginal());
 //        dd($statusesWithPivot);
 //        $zipped = $invoicesCollections->zip($statusesWithPivot);
 //        return view('invoices.Invoices_Details',compact('zipped'));
-        return view('invoices.Invoices_Details',compact('invoicesCollections','statusesWithPivot'));
+        return view('invoices.Invoices_Details',compact('invoicesCollections','statusesWithPivot','attachments'));
 
 //        foreach ($zipped as $zip){
 //            dd($zip[0]);
 //        }
 
 
-        return $zipped;
+//        return $zipped;
 
     }
 
@@ -118,4 +143,18 @@ class InvoicesController extends Controller
     {
         //
     }
+
+
+    public function download(invoices $invoices)
+    {
+        //
+    }
+
+
+
+    public function View_file(invoices $invoices)
+    {
+        //
+    }
+
 }
